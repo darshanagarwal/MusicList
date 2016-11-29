@@ -1,0 +1,76 @@
+
+<div class="container">
+    <div class="">
+        <div class="image">
+            <div id="wrap">
+                <div id="showcase" class="noselect"> 
+                    <img class="cloud9-item" height="200" width="200" src="{{movie.imageUrl}}" alt="{{movie.title}}" ng-repeat="movie in movies">
+                </div>
+                <p id="item-title">&nbsp;</p>
+            </div>
+        </div>
+        <div class="form-group search-input">
+            <input type="text" ng-model="search.title" class="form-control" placeholder="Type to search">
+        </div>
+        <div class="form-group">
+            <div class="movies" >
+                <b>Action({{ActionFilter.length}})</b>
+                <!--filter:{category:'Action'} :-provide category vise filter -->
+                <!--filter: search :- Based on search criteria filters the list -->
+                <div class="box" ng-repeat="movie in movies| filter:{category:'Action'} | filter: search as ActionFilter">
+                    <span rating rating-value="movie.rating"> </span>
+                    <p><a href="http://www.imdb.com/find?q={{movie.title}}" target="_bank">{{movie.title}}</a></p>
+                </div>
+            </div>
+            <div class="movies" >
+                <b>Comedy({{ComedyFilter.length}})</b>
+                <div class="box" ng-repeat="movie in movies| filter:{category:'Comedy'} | filter: search as ComedyFilter">
+                    <span rating rating-value="movie.rating"> </span>
+                    <p><a href="http://www.imdb.com/find?q={{movie.title}}" target="_bank">{{movie.title}}</a></p>
+                </div>
+            </div>
+            <div class="movies" >
+                <b>Thriller({{ThrillerFilter.length}})</b>
+                <div class="box" ng-repeat="movie in movies| filter:{category:'Thriller'} | filter: search as ThrillerFilter">
+                    <span rating rating-value="movie.rating"> </span>
+                    <p><a href="http://www.imdb.com/find?q={{movie.title}}" target="_bank">{{movie.title}}</a></p>
+                </div>
+            </div>
+            <div class="movies" >
+                <b>Drama({{DramaFilter.length}})</b>
+                <div class="box" ng-repeat="movie in movies| filter:{category:'Drama'} | filter: search as DramaFilter">
+                    <span rating rating-value="movie.rating"> </span>
+                    <p><a href="http://www.imdb.com/find?q={{movie.title}}" target="_bank">{{movie.title}}</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+            $(function () {
+                var showcase = $("#showcase");
+                setTimeout(function () {
+                    showcase.Cloud9Carousel({
+                        autoPlay: true,
+                        bringToFront: true,
+                        onRendered: showcaseUpdated,
+                        onLoaded: function () {
+                            showcase.css('visibility', 'visible');
+                            showcase.css('display', 'none');
+                            showcase.fadeIn(1500);
+                        }
+                    })
+                }, 0);
+
+
+                function showcaseUpdated(showcase) {
+                    var title = $('#item-title').html(
+                            $(showcase.nearestItem()).attr('alt')
+                            )
+
+                    var c = Math.cos((showcase.floatIndex() % 1) * 2 * Math.PI)
+                    title.css('opacity', 0.5 + (0.5 * c));
+                }
+
+            });
+</script> 
